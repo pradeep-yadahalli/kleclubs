@@ -9,10 +9,11 @@ const userSchema = new mongoose.Schema(
         },
 
         email: {
-            type: String,
-            lowercase: true,
-            trim: true
-        },
+    type: String,
+    lowercase: true,
+    trim: true,
+    sparse: true
+},
 
         username: {
             type: String,
