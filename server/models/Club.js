@@ -21,10 +21,10 @@ const clubSchema = new mongoose.Schema(
         },
 
         admin: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            required: true
-        },
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    default: null
+},
 
         status: {
             type: String,
