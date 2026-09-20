@@ -33,6 +33,41 @@ const formFieldSchema = new mongoose.Schema(
         required: {
             type: Boolean,
             default: false
+        },
+
+        placeholder: {
+            type: String,
+            default: ""
+        },
+
+        minLength: {
+            type: Number,
+            default: null
+        },
+
+        maxLength: {
+            type: Number,
+            default: null
+        },
+
+        minValue: {
+            type: Number,
+            default: null
+        },
+
+        maxValue: {
+            type: Number,
+            default: null
+        },
+
+        allowedFileTypes: {
+            type: [String],
+            default: []
+        },
+
+        maxFileSize: {
+            type: Number,
+            default: null
         }
     },
     {

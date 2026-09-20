@@ -7,6 +7,8 @@ const authRoutes = require("./routes/authRoutes");
 const clubRoutes = require("./routes/clubRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const eventRoutes = require("./routes/eventRoutes");
+const formRoutes = require("./routes/formRoutes");
+const applicationRoutes = require("./routes/applicationRoutes");
 
 dotenv.config();
 
@@ -36,6 +38,12 @@ app.use("/api/admin", adminRoutes);
 
 //event routes
 app.use("/api/events", eventRoutes);
+
+//form routes
+app.use("/api/forms", formRoutes);
+
+//application routes
+app.use("/api/applications", applicationRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
