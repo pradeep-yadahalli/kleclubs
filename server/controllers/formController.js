@@ -195,10 +195,58 @@ const reopenForm = async (req, res) => {
         });
     }
 };
+
+
+ // Get Published Form for an Event
+const getPublishedFormByEvent = async (req, res) => {
+    try {
+        const { eventId } = req.params;
+
+        // Check whether the event exists
+        const event = await Event.findById(eventId);
+
+        if (!event) {
+            return res.status(404).json({
+                message: "Event not found"
+            });
+        }
+
+        // Prevent registration for cancelled events
+if (event.status === "CANCELLED") {
+    return res.status(400).json({
+        message: "Registration is unavailable because this event has been cancelled"
+    });
+}
+
+        // Find a published form for this event
+        const form = await Form.findOne({
+            event: eventId,
+            status: "PUBLISHED"
+        });
+
+        if (!form) {
+            return res.status(404).json({
+                message: "No published registration form is available for this event"
+            });
+        }
+
+        res.status(200).json({
+            message: "Published form fetched successfully",
+            form
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+};
+
 module.exports = {
     createForm,
     publishForm,
     getMyForms,
     closeForm,
-    reopenForm
+    reopenForm,
+    getPublishedFormByEvent
 };

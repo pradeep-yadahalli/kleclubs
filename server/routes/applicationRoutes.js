@@ -2,7 +2,9 @@ const express = require("express");
 
 const {
     submitApplication,
-    getEventApplications
+    getEventApplications,
+    getMyApplications,
+    updateApplicationStatus
 } = require("../controllers/applicationController");
 
 const protect = require("../middleware/authMiddleware");
@@ -24,6 +26,23 @@ router.get(
     protect,
     authorizeRoles("CLUB_ADMIN", "SUPER_ADMIN"),
     getEventApplications
+);
+
+// Get applications of logged-in student
+router.get(
+    "/my-applications",
+    protect,
+    authorizeRoles("STUDENT"),
+    getMyApplications
+);
+
+
+ // Club Admin updates an application status
+router.patch(
+    "/:applicationId/status",
+    protect,
+    authorizeRoles("CLUB_ADMIN", "SUPER_ADMIN"),
+    updateApplicationStatus
 );
 
 module.exports = router;

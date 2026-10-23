@@ -1,17 +1,24 @@
+
 const express = require("express");
+const router = express.Router();
 
 const {
     createForm,
     publishForm,
     getMyForms,
     closeForm,
-    reopenForm
+    reopenForm,
+    getPublishedFormByEvent
 } = require("../controllers/formController");
+
 const protect = require("../middleware/authMiddleware");
 const authorizeRoles = require("../middleware/roleMiddleware");
-const clubOwnership = require("../middleware/clubOwnershipMiddleware");
 
-const router = express.Router();
+// Get published registration form for an event
+router.get(
+    "/event/:eventId/published",
+    getPublishedFormByEvent
+);
 
 // Create Custom Form
 router.post(
@@ -36,6 +43,8 @@ router.get(
     authorizeRoles("CLUB_ADMIN", "SUPER_ADMIN"),
     getMyForms
 );
+
+// Close Form
 router.patch(
     "/:formId/close",
     protect,
