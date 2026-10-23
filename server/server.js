@@ -1,4 +1,6 @@
+
 const express = require("express");
+const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 
@@ -13,13 +15,27 @@ const applicationRoutes = require("./routes/applicationRoutes");
 dotenv.config();
 
 const app = express();
-
 const PORT = process.env.PORT || 5000;
 
-connectDB();
+// CORS configuration — allow the local React frontend
+app.use(
+    cors({
+        origin: [
+            "http://localhost:5173",
+            "http://127.0.0.1:5173"
+        ],
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"]
+    })
+);
 
+// Parse JSON request bodies
 app.use(express.json());
 
+// Connect to MongoDB
+connectDB();
+
+// Backend health check
 app.get("/", (req, res) => {
     res.send("College Event Management System Backend is Running!");
 });
@@ -30,21 +46,22 @@ app.use("/api/users", userRoutes);
 // Authentication routes
 app.use("/api/auth", authRoutes);
 
-//club routes
+// Club routes
 app.use("/api/clubs", clubRoutes);
 
-//admin routes
+// Admin routes
 app.use("/api/admin", adminRoutes);
 
-//event routes
+// Event routes
 app.use("/api/events", eventRoutes);
 
-//form routes
+// Form routes
 app.use("/api/forms", formRoutes);
 
-//application routes
+// Application routes
 app.use("/api/applications", applicationRoutes);
 
+// Start server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });

@@ -1,10 +1,33 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
+import { getEvents } from './services/eventService';
 
 function App() {
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
+  const [events, setEvents] = useState([]);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState('');
+
+useEffect(() => {
+  const fetchEvents = async () => {
+    try {
+      setLoading(true);
+      setError('');
+
+      const data = await getEvents();
+      setEvents(data.events || []);
+    } catch (err) {
+      console.error('Failed to fetch events:', err);
+      setError('Unable to load events. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchEvents();
+}, []);
 
   const categories = [
     'All',
@@ -201,10 +224,40 @@ function App() {
           <div className="empty-events">
             <div className="empty-events-icon" aria-hidden="true">✦</div>
             <h3>Your next opportunity starts here.</h3>
-            <p>
-              Events will appear here once we connect this page
-              to your backend API.
-            </p>
+           
+{loading ? (
+  <p>Loading events...</p>
+) : error ? (
+  <p role="alert">{error}</p>
+) : events.length === 0 ? (
+  <p>
+    No events are available right now. Please check again soon!
+  </p>
+) : (
+  <div className="events-grid">
+    {events.map((event) => (
+      <article className="event-card" key={event._id}>
+        <h3>{event.title || event.name || 'Untitled Event'}</h3>
+
+        {event.description && <p>{event.description}</p>}
+
+        {event.date && (
+          <p>
+            <strong>Date:</strong>{' '}
+            {new Date(event.date).toLocaleDateString()}
+          </p>
+        )}
+
+        {event.venue && (
+          <p>
+            <strong>Venue:</strong> {event.venue}
+          </p>
+        )}
+      </article>
+    ))}
+  </div>
+)}
+
             <button
               className="btn btn-outline-danger"
               onClick={() => {
