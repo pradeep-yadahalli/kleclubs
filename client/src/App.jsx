@@ -1,122 +1,253 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+
+import { useState } from 'react';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [search, setSearch] = useState('');
+  const [activeCategory, setActiveCategory] = useState('All');
+
+  const categories = [
+    'All',
+    'Hackathons',
+    'Workshops',
+    'Competitions',
+    'Cultural',
+    'Recruitments',
+  ];
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="portal">
+      {/* Navigation */}
+      <nav className="navbar navbar-expand-lg bg-white portal-navbar sticky-top">
+        <div className="container">
+          <a className="navbar-brand portal-brand" href="#home">
+            <span className="brand-icon">K</span>
+            KLE<span className="brand-highlight">Clubs</span>
+          </a>
+
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#portalNavbar"
+            aria-controls="portalNavbar"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          <div
+            className="collapse navbar-collapse"
+            id="portalNavbar"
+          >
+            <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <a className="nav-link active" href="#home">Home</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#events">Explore Events</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#about">About Us</a>
+              </li>
+            </ul>
+
+            <div className="d-flex gap-2">
+              <button
+                className="btn btn-outline-danger portal-login"
+                onClick={() => alert('Login page will be added in the next step.')}
+              >
+                Login
+              </button>
+              <button
+                className="btn btn-danger portal-register"
+                onClick={() => alert('Registration page will be added in the next step.')}
+              >
+                Get Started
+              </button>
+            </div>
+          </div>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
+      </nav>
+
+      {/* Hero Section */}
+      <header className="portal-hero" id="home">
+        <div className="container">
+          <div className="row align-items-center g-5">
+            <div className="col-lg-7">
+              <span className="hero-label">
+                YOUR CAMPUS. YOUR COMMUNITY.
+              </span>
+
+              <h1 className="hero-title">
+                Discover events.
+                <br />
+                Find your <span>people.</span>
+              </h1>
+
+              <p className="hero-description">
+                Explore college events, join clubs, showcase your
+                talents and make your campus experience count.
+                Everything happening on campus, in one place.
+              </p>
+
+              <div className="d-flex flex-wrap gap-3 mt-4">
+                <a href="#events" className="btn btn-danger hero-button">
+                  Explore Events <span aria-hidden="true">→</span>
+                </a>
+                <button
+                  className="btn btn-outline-dark hero-secondary"
+                  onClick={() => alert('Student registration will be added in the next step.')}
+                >
+                  Join the Community
+                </button>
+              </div>
+
+              <div className="hero-note mt-4">
+                <span className="note-dot"></span>
+                One campus. Endless opportunities.
+              </div>
+            </div>
+
+            <div className="col-lg-5">
+              <div className="hero-visual">
+                <div className="visual-decoration decoration-one"></div>
+                <div className="visual-decoration decoration-two"></div>
+
+                <div className="visual-card main-visual-card">
+                  <div className="visual-topline">
+                    <span className="visual-live-dot"></span>
+                    CAMPUS LIFE
+                  </div>
+
+                  <div className="visual-art" aria-hidden="true">
+                    <div className="art-sun"></div>
+                    <div className="art-building building-back"></div>
+                    <div className="art-building building-front">
+                      <div className="building-roof"></div>
+                      <div className="building-columns">
+                        <i></i><i></i><i></i><i></i>
+                      </div>
+                    </div>
+                    <div className="art-ground"></div>
+                  </div>
+
+                  <h3>Make every moment count.</h3>
+                  <p>Find something worth showing up for.</p>
+                </div>
+
+                <div className="floating-card floating-card-top">
+                  <span className="floating-icon">✦</span>
+                  <div>
+                    <strong>Discover</strong>
+                    <small>New opportunities</small>
+                  </div>
+                </div>
+
+                <div className="floating-card floating-card-bottom">
+                  <span className="floating-icon">♥</span>
+                  <div>
+                    <strong>Connect</strong>
+                    <small>Find your community</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+      </header>
+
+      {/* Event Discovery */}
+      <section className="events-section" id="events">
+        <div className="container">
+          <div className="section-heading">
+            <div>
+              <span className="section-eyebrow">WHAT'S HAPPENING</span>
+              <h2>Explore campus life</h2>
+              <p>Find events and opportunities that interest you.</p>
+            </div>
+
+            <span className="event-count-label">EVENT DISCOVERY</span>
+          </div>
+
+          <div className="event-toolbar">
+            <div className="category-list">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  className={`category-button ${
+                    activeCategory === category ? 'selected' : ''
+                  }`}
+                  onClick={() => setActiveCategory(category)}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+
+            <div className="search-box">
+              <span aria-hidden="true">⌕</span>
+              <input
+                type="search"
+                placeholder="Search events..."
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                aria-label="Search events"
+              />
+            </div>
+          </div>
+
+          <div className="empty-events">
+            <div className="empty-events-icon" aria-hidden="true">✦</div>
+            <h3>Your next opportunity starts here.</h3>
+            <p>
+              Events will appear here once we connect this page
+              to your backend API.
+            </p>
+            <button
+              className="btn btn-outline-danger"
+              onClick={() => {
+                setSearch('');
+                setActiveCategory('All');
+              }}
+            >
+              Clear filters
+            </button>
+          </div>
+        </div>
       </section>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
+      {/* About */}
+      <section className="about-section" id="about">
+        <div className="container">
+          <div className="about-content">
+            <span className="section-eyebrow">BUILT FOR CAMPUS LIFE</span>
+            <h2>More than events.<br />A place to belong.</h2>
+            <p>
+              KLEClubs brings campus activities, club opportunities
+              and student participation together in one convenient
+              platform.
+            </p>
+          </div>
         </div>
       </section>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      {/* Footer */}
+      <footer className="portal-footer">
+        <div className="container footer-content">
+          <a className="navbar-brand portal-brand" href="#home">
+            <span className="brand-icon">K</span>
+            KLE<span className="brand-highlight">Clubs</span>
+          </a>
+          <p>Connecting students with campus opportunities.</p>
+          <span className="footer-copy">
+            © {new Date().getFullYear()} KLEClubs
+          </span>
+        </div>
+      </footer>
+    </div>
+  );
 }
 
-export default App
+export default App;
